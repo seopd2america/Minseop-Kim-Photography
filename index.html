@@ -341,9 +341,9 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
   addEventListener('wheel',e=>{if(root.classList.contains('gate')&&e.deltaY>0)enter()},{passive:true});
   // a slow, eased scroll (the browser's own smooth scroll is too quick); any wheel or touch takes over
   let glide=0;
-  function glideTo(y){const y0=scrollY,d=y-y0,ms=900,t0=performance.now(),id=++glide;
+  function glideTo(y){const y0=scrollY,d=y-y0,ms=700,t0=performance.now(),id=++glide;
     if(reduce||!d)return scrollTo(0,y);
-    const ease=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+    const ease=k=>1-Math.pow(1-k,3); // moves at once, settles gently
     (function step(now){if(id!==glide)return;const k=Math.min(1,(now-t0)/ms);scrollTo(0,y0+d*ease(k));if(k<1)requestAnimationFrame(step)})(t0)}
   ['wheel','touchstart','keydown'].forEach(ev=>addEventListener(ev,()=>glide++,{passive:true}));
   $('hero').addEventListener('click',()=>{if(root.classList.contains('gate'))return enter();glideTo($('work').getBoundingClientRect().top+scrollY)});
