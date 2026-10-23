@@ -1,0 +1,406 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Minseop Kim Photography</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,700;1,700&display=swap">
+<style>
+/* Layout: white page. Landing is a 3:2 landscape photo framed by white space, with SEOP in translucent extended grotesque across it (John Huet style). Below, selected work only, staggered with generous white space. One light look by design. */
+:root{
+  --paper:#ffffff;
+  --ink:#0d0d0d;
+  --red:#d71920;
+  --mute:#8a8a8a;
+  --veil:rgba(226,226,226,.5);
+  --night:#111111;
+  --f:"Arial Narrow","Arial Nova Cond","Archivo Narrow","Helvetica Neue Condensed",Arial,sans-serif;
+  --m:36px;            /* white margin around the landing photo */
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{background:var(--paper);color:var(--ink)}
+body{font-family:var(--f);font-weight:700;font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media(min-width:900px){.gut{padding-left:max(48px,env(safe-area-inset-left,0px));padding-right:max(48px,env(safe-area-inset-right,0px))}}
+.small{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+
+/* ---------- LANDING ---------- */
+.landing{position:relative;height:100svh;min-height:420px}
+.screen{position:absolute;inset:0;overflow:hidden;background:var(--night);cursor:pointer}
+.hf{position:absolute;inset:0;background:center bottom/cover no-repeat;opacity:0;transition:opacity 1.4s ease}
+.hf.show{opacity:1}
+.screen h1{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);margin:0;text-align:center;z-index:2;pointer-events:none;
+  font-weight:700;text-transform:uppercase;letter-spacing:0;line-height:.9;color:var(--veil);font-size:20vw;white-space:nowrap}
+.screen h1 span{display:inline-block}
+
+/* ---------- WORK (text index, no thumbnails) ---------- */
+.index{min-height:70svh;display:grid;place-content:center;padding-block:clamp(96px,14vw,200px)}
+.index ul{list-style:none;margin:0;padding:0;text-align:center;font-weight:700;font-size:clamp(26px,4vw,58px);line-height:1.2;letter-spacing:-.01em;color:var(--ink)}
+.index button{all:unset;cursor:pointer;color:var(--ink);transition:color .2s}
+.index button:hover,.index button:focus-visible{color:var(--red)}
+.index button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
+.index .soon{color:var(--ink)}
+
+/* ---------- ABOUT (folded away at the very bottom) ---------- */
+.about{padding-block:clamp(96px,12vw,180px) 0;color:var(--ink)}
+.about summary{cursor:pointer;list-style:none;display:inline-block;transition:color .2s}
+.about summary:hover{color:var(--red)}
+.about summary::-webkit-details-marker{display:none}
+.about summary::after{content:" +"}
+.about[open] summary::after{content:" −"}
+.about .body{max-width:1100px;padding-top:28px;font-size:clamp(15px,1.2vw,18px);line-height:1.65}
+.about h2{font-size:1.15em;font-weight:700;margin:0 0 .9em}
+.about h2:not(:first-child){margin-top:2.2em}
+.about p{margin:0 0 1.2em;max-width:75ch}
+.about ul{margin:0;padding:0;list-style:none}
+.about li{margin-bottom:.5em}
+.about .mail{user-select:all;-webkit-user-select:all;overflow-wrap:anywhere}
+
+/* ---------- FOOTER ---------- */
+.foot{padding-block:28px calc(32px + env(safe-area-inset-bottom,0px));color:var(--ink)}
+
+/* ---------- LIGHTBOX ---------- */
+.lb{position:fixed;inset:0;z-index:50;background:var(--paper);display:grid;grid-template-rows:auto 1fr;opacity:0;pointer-events:none;transition:opacity .3s;padding-top:env(safe-area-inset-top,0px);padding-bottom:max(24px,env(safe-area-inset-bottom,0px))}
+.lb.open{opacity:1;pointer-events:auto}
+.lb-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;height:56px;color:var(--ink)}
+.lb-bar button{all:unset;cursor:pointer;color:var(--ink);transition:color .2s}
+.lb-bar button:hover{color:var(--red)}
+.lb-stage{position:relative;margin:0 max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
+/* every photo is shown at the same height; a landscape frame sets that height so it always fits */
+.lb-img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:center/cover no-repeat;opacity:0;transition:opacity .6s ease}
+.lb-img.show{opacity:1}
+.lb-actions{display:flex;gap:24px}
+/* Bird's Eye index: big frame numbers on the left, the hovered frame on the right */
+.sheet{position:absolute;inset:0;z-index:3;background:var(--paper);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,72px);
+  padding-bottom:clamp(16px,3vh,40px);opacity:0;pointer-events:none;transition:opacity .45s ease}
+.sheet.on{opacity:1;pointer-events:auto}
+.idx{overflow-y:auto;align-self:stretch;display:flex;flex-wrap:wrap;align-content:center;justify-content:center;padding-inline:clamp(16px,5vw,96px);gap:.25em .6em;font-size:clamp(18px,2vw,30px);line-height:1;padding-block:8px}
+.idx button{all:unset;cursor:pointer;position:relative;color:#cfcfcf;font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+  opacity:0;transform:translateY(.25em);transition:color .15s,opacity .45s ease,transform .45s ease}
+.sheet.on .idx button{opacity:1;transform:none}
+.idx button img{display:none}
+.idx button:hover,.idx button:focus-visible,.idx button.hot{color:var(--ink)}
+.idx button.cur{color:var(--red)}
+.idx button:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+.pv{position:relative;display:grid;grid-template-rows:1fr;min-height:0}
+.pv-cap{display:none!important}
+.pv-img{background:left center/contain no-repeat;margin-right:clamp(16px,5vw,96px);min-height:0;transition:opacity .2s}
+.pv-cap{display:flex;gap:14px;align-items:baseline;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink);min-height:1.4em}
+.pv-cap b{color:var(--red);font-variant-numeric:tabular-nums;flex:0 0 auto}
+.pv-cap span{min-width:0}
+@media(max-width:800px),(hover:none){
+  .sheet{display:block;overflow-y:auto}
+  .pv{display:none}
+  .idx{overflow:visible;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 12px;font-size:12px;align-content:start}
+  .idx button{display:grid;gap:6px;color:var(--ink)}
+  .idx button img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;background:#f2f2f2}
+}
+.lb-shield{position:absolute;inset:0;cursor:e-resize}
+.lb-shield.left{cursor:w-resize}
+
+/* ---------- MOBILE ---------- */
+@media(max-width:700px){
+  :root{--m:16px}
+  /* phones: show each photo whole, edge to edge at its own 3:2 shape instead of cropping it to a tall screen */
+  .landing{height:auto;min-height:0;aspect-ratio:3/2;margin-top:env(safe-area-inset-top,0px)}
+}
+
+/* protection */
+.protected,.protected *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-user-drag:none}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;background:var(--ink);color:var(--paper);padding:10px 14px;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+</style>
+
+<section class="landing protected" aria-label="Minseop Kim">
+  <div class="screen" id="hero">
+    <div class="hf" id="hA"></div><div class="hf" id="hB"></div>
+    <h1 aria-label="Seop, Minseop Kim"><span id="seop">Seop</span></h1>
+  </div>
+</section>
+
+<main id="work">
+  <nav class="index gut" aria-label="Work"><ul id="workList"></ul></nav>
+
+</main>
+
+<details class="about gut" id="about">
+  <summary class="small">About</summary>
+  <div class="body">
+    <h2>About Minseop Kim</h2>
+    <p>Photographer, baseball fanatic, and most people call me Sup (Like what's up)</p>
+    <p>I find it magical how the camera becomes a bridge, connecting me to worlds I never imagined I could enter. While I photograph a range of subjects, I am especially drawn to sports. From baseball to skateboarding, my focus is to visualize the core elements and bring out the narrative in the scene, capturing meaningful moments and their unique cultural aspects. I photograph to tell stories. I’m driven to push the creative challenges and share my perspective through images.</p>
+    <h2>Education</h2>
+    <p>ArtCenter College of Design, Pasadena, CA<br>Bachelor of Fine Arts in Photography and Imaging<br>(Anticipated Graduation December 2026)</p>
+    <h2>Awards / Exhibitions / Publications</h2>
+    <ul>
+      <li>Los Angeles Skate Scene: 2026 International Photography Awards (IPA) Non-Professional Honorable Mention for People Traditions / Culture</li>
+      <li><em>College Baseball:</em> 2025 International Photography Awards (IPA) Non-Professional 1st place for Editorial / Press, Sports</li>
+      <li><em>College Baseball:</em> Featured in <em>IPA Book 2025</em></li>
+      <li>ArtCenter College of Design Gallery Show, Pasadena, CA (FA 21, FA 24, SP 25, FA 25 and SP 26)</li>
+    </ul>
+    <h2>Contact</h2>
+    <p class="mail">seopd2america@gmail.com</p>
+  </div>
+</details>
+
+<footer class="foot gut small">© 2018 - 2026 All rights Reserved</footer>
+
+<div class="lb protected" id="lb" role="dialog" aria-modal="true" aria-label="Photograph viewer">
+  <div class="lb-bar gut small"><span id="lbTitle"></span><span class="lb-actions"><button id="lbSheet" type="button">Bird&rsquo;s Eye</button><button id="lbClose" type="button">Close</button></span></div>
+  <div class="lb-stage"><div class="lb-img" id="lbA"></div><div class="lb-img" id="lbB"></div><div class="lb-shield" id="lbShield"></div><div class="sheet" id="sheet" aria-label="All photographs in this section"></div></div>
+</div>
+<div class="toast small" id="toast">© Minseop Kim</div>
+
+<script>
+(function(){
+  const $=id=>document.getElementById(id);
+  const PHOTOS=[
+    {src:"img/outfield.jpg",alt:"Outfielder throwing in golden-hour light beside a tall padded wall"},
+    {src:"img/dugout.jpg",  alt:"Baseball player resting against the dugout wall in a beam of light"},
+    {src:"img/kickflip.jpg",alt:"Skateboarder kickflipping down concrete steps under a steel structure"},
+    {src:"img/dive.jpg",    alt:"Black-and-white photo of a swimmer diving headfirst into the sea"},
+    {src:"img/motion.jpg",  alt:"Abstract red motion blur of a swing"},
+    // Recent Work, indexes 5–13
+    {src:"img/recent-01.jpg",sm:"img/recent-01-sm.jpg",alt:"Basketball player leaping off a white wall against blue sky, ball in hand"},
+    {src:"img/recent-02.jpg",sm:"img/recent-02-sm.jpg",alt:"Basketball player dribbling in a parking lot beside a gray fence at golden hour"},
+    {src:"img/recent-03.jpg",sm:"img/recent-03-sm.jpg",alt:"Close-up of a worn basketball in warm low sunlight"},
+    {src:"img/recent-04.jpg",sm:"img/recent-04-sm.jpg",alt:"Portrait of a basketball player holding a ball under his arm"},
+    {src:"img/recent-05.jpg",sm:"img/recent-05-sm.jpg",alt:"Overhead view of a player dribbling across a dark concrete floor under a spotlight"},
+    {src:"img/recent-06.jpg",sm:"img/recent-06-sm.jpg",alt:"Close portrait of a young man in a patterned sweater"},
+    {src:"img/recent-07.jpg",sm:"img/recent-07-sm.jpg",alt:"Motion-blurred musician leaning against a wall beside a drum kit in amber light"},
+    {src:"img/recent-08.jpg",sm:"img/recent-08-sm.jpg",alt:"Overhead view of a musician on the floor surrounded by instruments and gear"},
+    {src:"img/recent-09.jpg",sm:"img/recent-09-sm.jpg",alt:"Back of a musician's head as he plays a synthesizer"},
+    // Portfolio, indexes 14–33
+    {src:"img/portfolio-01.jpg",sm:"img/portfolio-01-sm.jpg",alt:"Outfielder in a red jersey throwing beside a tall padded wall at golden hour"},
+    {src:"img/portfolio-02.jpg",sm:"img/portfolio-02-sm.jpg",alt:"Young man shouting in tall grass by a chain-link fence at dusk"},
+    {src:"img/portfolio-03.jpg",sm:"img/portfolio-03-sm.jpg",alt:"Skateboarder mid-kickflip on a hilltop at sunset while three friends watch, city skyline behind"},
+    {src:"img/portfolio-04.jpg",sm:"img/portfolio-04-sm.jpg",alt:"Black-and-white portrait of a young baseball player resting a bat on his shoulder"},
+    {src:"img/portfolio-05.jpg",sm:"img/portfolio-05-sm.jpg",alt:"Motion-blurred fencers in white, one in a red mask"},
+    {src:"img/portfolio-06.jpg",sm:"img/portfolio-06-sm.jpg",alt:"Black-and-white photo of a swimmer diving headfirst into the sea"},
+    {src:"img/portfolio-07.jpg",sm:"img/portfolio-07-sm.jpg",alt:"Portrait of a basketball player holding a ball under his arm"},
+    {src:"img/portfolio-08.jpg",sm:"img/portfolio-08-sm.jpg",alt:"Motion-blurred tennis serve on an orange clay court"},
+    {src:"img/portfolio-09.jpg",sm:"img/portfolio-09-sm.jpg",alt:"Blurred close-up of a fencer's hand gripping the foil"},
+    {src:"img/portfolio-10.jpg",sm:"img/portfolio-10-sm.jpg",alt:"Black-and-white photo of sneakers beside dark stains on concrete"},
+    {src:"img/portfolio-11.jpg",sm:"img/portfolio-11-sm.jpg",alt:"Close-up of a skateboard flipping beneath a skater's sneakers at night"},
+    {src:"img/portfolio-12.jpg",sm:"img/portfolio-12-sm.jpg",alt:"Abstract red motion blur of a swing"},
+    {src:"img/portfolio-13.jpg",sm:"img/portfolio-13-sm.jpg",alt:"Black-and-white photo of a laughing young man clapping among swimmers on a dock"},
+    {src:"img/portfolio-14.jpg",sm:"img/portfolio-14-sm.jpg",alt:"Black-and-white photo of baseball players laughing in a dugout"},
+    {src:"img/portfolio-15.jpg",sm:"img/portfolio-15-sm.jpg",alt:"Black-and-white portrait of a shirtless man against a painted wall"},
+    {src:"img/portfolio-16.jpg",sm:"img/portfolio-16-sm.jpg",alt:"Close-up of stickers and spray paint, one reading I've never been to New York"},
+    {src:"img/portfolio-17.jpg",sm:"img/portfolio-17-sm.jpg",alt:"Overhead view of a catcher lying on the grass beside a teammate in gear"},
+    {src:"img/portfolio-18.jpg",sm:"img/portfolio-18-sm.jpg",alt:"Motion-blurred baseball player in red and gold against a dark background"},
+    {src:"img/portfolio-19.jpg",sm:"img/portfolio-19-sm.jpg",alt:"Back of a baseball player in a maroon cap carrying a Rawlings backpack"},
+    {src:"img/portfolio-20.jpg",sm:"img/portfolio-20-sm.jpg",alt:"Close-up of an athlete's legs in Nike socks and ankle braces with netting shadows"},
+    // Portfolio continued, indexes 34–54
+    {src:"img/portfolio-21.jpg",sm:"img/portfolio-21-sm.jpg",alt:"Shadow of a tennis player stretching for a high ball on a green court"},
+    {src:"img/portfolio-22.jpg",sm:"img/portfolio-22-sm.jpg",alt:"Motion-blurred skater grinding a ledge against a sunset sky"},
+    {src:"img/portfolio-23.jpg",sm:"img/portfolio-23-sm.jpg",alt:"Back of a man in a dirt-streaked white T-shirt and pink trucker cap"},
+    {src:"img/portfolio-24.jpg",sm:"img/portfolio-24-sm.jpg",alt:"Black-and-white photo of a swimmer bent forward to dive as two friends watch"},
+    {src:"img/portfolio-25.jpg",sm:"img/portfolio-25-sm.jpg",alt:"Close portrait of a young man in a patterned sweater"},
+    {src:"img/portfolio-26.jpg",sm:"img/portfolio-26-sm.jpg",alt:"Overhead view of a musician on the floor surrounded by instruments and gear"},
+    {src:"img/portfolio-27.jpg",sm:"img/portfolio-27-sm.jpg",alt:"Rows of empty green stadium seats with numbered plates"},
+    {src:"img/portfolio-28.jpg",sm:"img/portfolio-28-sm.jpg",alt:"Tennis player in a white Nike cap wiping his face with a towel"},
+    {src:"img/portfolio-29.jpg",sm:"img/portfolio-29-sm.jpg",alt:"Baseball player resting against the dugout wall in a beam of light"},
+    {src:"img/portfolio-30.jpg",sm:"img/portfolio-30-sm.jpg",alt:"Black-and-white photo of sneakers hanging from power lines"},
+    {src:"img/portfolio-31.jpg",sm:"img/portfolio-31-sm.jpg",alt:"Overhead view of a young skater holding his board in a graffiti-covered bowl"},
+    {src:"img/portfolio-32.jpg",sm:"img/portfolio-32-sm.jpg",alt:"Pitcher in a maroon jersey standing in the bullpen, glove raised"},
+    {src:"img/portfolio-33.jpg",sm:"img/portfolio-33-sm.jpg",alt:"Close-up of a peeling yellow and blue sticker on a weathered wall"},
+    {src:"img/portfolio-34.jpg",sm:"img/portfolio-34-sm.jpg",alt:"Man in a blue LA cap in front of a chain-link fence, eyes just under the brim"},
+    {src:"img/portfolio-35.jpg",sm:"img/portfolio-35-sm.jpg",alt:"Black-and-white portrait of a smiling young baseball player in a cap and chain"},
+    {src:"img/portfolio-36.jpg",sm:"img/portfolio-36-sm.jpg",alt:"Close-up of the back of an athlete's head with a white tied headband"},
+    {src:"img/portfolio-37.jpg",sm:"img/portfolio-37-sm.jpg",alt:"Mist from a sprinkler over red infield dirt"},
+    {src:"img/portfolio-38.jpg",sm:"img/portfolio-38-sm.jpg",alt:"Low view of a pink graffiti-covered skate ledge"},
+    {src:"img/portfolio-39.jpg",sm:"img/portfolio-39-sm.jpg",alt:"Black-and-white portrait of a man with curly gray hair and a white T-shirt"},
+    {src:"img/portfolio-40.jpg",sm:"img/portfolio-40-sm.jpg",alt:"Skater floating mid-kickflip at night under park lights"},
+    {src:"img/portfolio-41.jpg",sm:"img/portfolio-41-sm.jpg",alt:"Motion-blurred athlete in red and yellow against a pink and teal haze"},
+    // College Baseball, indexes 55–72
+    {src:"img/college-01.jpg",sm:"img/college-01-sm.jpg",alt:"Pitcher resting against the dugout wall in a beam of light as teammates watch the field"},
+    {src:"img/college-02.jpg",sm:"img/college-02-sm.jpg",alt:"Black-and-white photo of laughing baseball players on the dugout bench"},
+    {src:"img/college-03.jpg",sm:"img/college-03-sm.jpg",alt:"Black-and-white photo of sneakers beside dark stains on the dugout floor"},
+    {src:"img/college-04.jpg",sm:"img/college-04-sm.jpg",alt:"Outfielder in a red jersey throwing beside a tall padded wall at golden hour"},
+    {src:"img/college-05.jpg",sm:"img/college-05-sm.jpg",alt:"Overhead view of a catcher lying on the grass beside a teammate in gear"},
+    {src:"img/college-06.jpg",sm:"img/college-06-sm.jpg",alt:"Black-and-white photo of baseballs floating in a concrete channel"},
+    {src:"img/college-07.jpg",sm:"img/college-07-sm.jpg",alt:"Black-and-white overhead view of players stretching in a lunge"},
+    {src:"img/college-08.jpg",sm:"img/college-08-sm.jpg",alt:"Black-and-white photo of a player grinning as a teammate hugs him from behind"},
+    {src:"img/college-09.jpg",sm:"img/college-09-sm.jpg",alt:"Black-and-white photo of a batter's worn gloves beside home plate and a ball bucket"},
+    {src:"img/college-10.jpg",sm:"img/college-10-sm.jpg",alt:"Overhead view of a pitcher mid-throw on a red mound in late light"},
+    {src:"img/college-11.jpg",sm:"img/college-11-sm.jpg",alt:"Close crop of a batter in a maroon jersey and red gloves at the plate"},
+    {src:"img/college-12.jpg",sm:"img/college-12-sm.jpg",alt:"Blue sky with bright white clouds"},
+    {src:"img/college-13.jpg",sm:"img/college-13-sm.jpg",alt:"Black-and-white photo of three coaches from behind, hands clasped, one holding a Gatorade cup"},
+    {src:"img/college-14.jpg",sm:"img/college-14-sm.jpg",alt:"Black-and-white low-angle photo of three players smiling against the sky"},
+    {src:"img/college-15.jpg",sm:"img/college-15-sm.jpg",alt:"Black-and-white portrait of a young player with a bat on his shoulder"},
+    {src:"img/college-16.jpg",sm:"img/college-16-sm.jpg",alt:"Black-and-white photo of two players jogging onto the field from the dugout"},
+    {src:"img/college-17.jpg",sm:"img/college-17-sm.jpg",alt:"Pitcher in a maroon jersey standing in the bullpen, glove raised"},
+    {src:"img/college-18.jpg",sm:"img/college-18-sm.jpg",alt:"Motion-blurred baseball player in red and gold against a dark background"},
+    {src:"img/portfolio-42.jpg",sm:"img/portfolio-42-sm.jpg",alt:"Skater kickflipping off concrete steps under a steel-beamed overhang"},
+    // College Baseball continued, indexes 74–93
+    {src:"img/college-19.jpg",sm:"img/college-19-sm.jpg",alt:"Two players in maroon playing ping-pong in the locker room"},
+    {src:"img/college-20.jpg",sm:"img/college-20-sm.jpg",alt:"Black-and-white photo of a sign on a chain-link fence reading Hunt or be hunted, King of jungle"},
+    {src:"img/college-21.jpg",sm:"img/college-21-sm.jpg",alt:"Black-and-white photo of an infielder in sunglasses throwing"},
+    {src:"img/college-22.jpg",sm:"img/college-22-sm.jpg",alt:"Black-and-white photo of a team huddle with raised fists"},
+    {src:"img/college-23.jpg",sm:"img/college-23-sm.jpg",alt:"Pitcher in a maroon jersey following through as the ball leaves his hand"},
+    {src:"img/college-24.jpg",sm:"img/college-24-sm.jpg",alt:"Batter in red swinging inside a netted batting cage under blue sky"},
+    {src:"img/college-25.jpg",sm:"img/college-25-sm.jpg",alt:"Outfielder in a ready crouch with a bloodied lip"},
+    {src:"img/college-26.jpg",sm:"img/college-26-sm.jpg",alt:"Close-up of mist over red infield dirt"},
+    {src:"img/college-27.jpg",sm:"img/college-27-sm.jpg",alt:"Black-and-white silhouette of a pitcher with an American flag and power lines behind"},
+    {src:"img/college-28.jpg",sm:"img/college-28-sm.jpg",alt:"Black-and-white close portrait of a smiling player in a cap and rope necklace"},
+    {src:"img/college-29.jpg",sm:"img/college-29-sm.jpg",alt:"Black-and-white photo of two players laughing on the dugout bench"},
+    {src:"img/college-30.jpg",sm:"img/college-30-sm.jpg",alt:"Four batters in maroon taking practice swings by the dugout at golden hour"},
+    {src:"img/college-31.jpg",sm:"img/college-31-sm.jpg",alt:"Close portrait of a player in a maroon cap against blue sky, cropped at the chin"},
+    {src:"img/college-32.jpg",sm:"img/college-32-sm.jpg",alt:"Two infielders leaping in celebration in front of a lit scoreboard"},
+    {src:"img/college-33.jpg",sm:"img/college-33-sm.jpg",alt:"Black-and-white portrait of three players in the locker room, one tossing a ball"},
+    {src:"img/college-34.jpg",sm:"img/college-34-sm.jpg",alt:"Black-and-white photo of a runner sliding into base as dirt sprays"},
+    {src:"img/college-35.jpg",sm:"img/college-35-sm.jpg",alt:"Black-and-white photo of a pitcher hiding his face behind his glove"},
+    {src:"img/college-36.jpg",sm:"img/college-36-sm.jpg",alt:"Catcher chasing a runner down the baseline with ball in hand"},
+    {src:"img/college-37.jpg",sm:"img/college-37-sm.jpg",alt:"Pitcher and coach standing on the mound at night, ball in hand"},
+    {src:"img/college-38.jpg",sm:"img/college-38-sm.jpg",alt:"Black-and-white close-up of a batter's gloved hands gripping the bat"},
+    // College Baseball continued, indexes 94–112
+    {src:"img/college-39.jpg",sm:"img/college-39-sm.jpg",alt:"Black-and-white portrait of a pitcher in a cap looking over his shoulder, glove raised"},
+    {src:"img/college-40.jpg",sm:"img/college-40-sm.jpg",alt:"Black-and-white overhead view of a player holding his head beside gear bags"},
+    {src:"img/college-41.jpg",sm:"img/college-41-sm.jpg",alt:"Team in maroon crowding together in celebration"},
+    {src:"img/college-42.jpg",sm:"img/college-42-sm.jpg",alt:"Catcher in gear sitting alone on the dugout bench"},
+    {src:"img/college-43.jpg",sm:"img/college-43-sm.jpg",alt:"Silhouette of a player in a maroon cap framed by a circle of blue sky"},
+    {src:"img/college-44.jpg",sm:"img/college-44-sm.jpg",alt:"Black-and-white photo of a player on a foam roller at night on the field"},
+    {src:"img/college-45.jpg",sm:"img/college-45-sm.jpg",alt:"Black-and-white photo of the team leaping to greet a runner at home plate"},
+    {src:"img/college-46.jpg",sm:"img/college-46-sm.jpg",alt:"Black-and-white photo of two players laughing as they run"},
+    {src:"img/college-47.jpg",sm:"img/college-47-sm.jpg",alt:"Back of a player in a maroon cap and hoodie wearing a Rawlings backpack"},
+    {src:"img/college-48.jpg",sm:"img/college-48-sm.jpg",alt:"Two outfielders jogging onto the field, one looking back"},
+    {src:"img/college-49.jpg",sm:"img/college-49-sm.jpg",alt:"Batter number 33 at the plate at dusk in front of the crowd"},
+    {src:"img/college-50.jpg",sm:"img/college-50-sm.jpg",alt:"Kids in team jerseys watching the game through the netting"},
+    {src:"img/college-51.jpg",sm:"img/college-51-sm.jpg",alt:"Black-and-white close-up of a smiling player with freckles"},
+    {src:"img/college-52.jpg",sm:"img/college-52-sm.jpg",alt:"Black-and-white photo of an outfielder reaching for a catch"},
+    {src:"img/college-53.jpg",sm:"img/college-53-sm.jpg",alt:"Two outfielders leaping for a high five as a teammate watches"},
+    {src:"img/college-54.jpg",sm:"img/college-54-sm.jpg",alt:"Player throwing with the sun flaring behind him"},
+    {src:"img/college-55.jpg",sm:"img/college-55-sm.jpg",alt:"Two players in red walking through a grassy hillside"},
+    {src:"img/college-56.jpg",sm:"img/college-56-sm.jpg",alt:"Black-and-white close-up of a trainer cutting plastic wrap from a player's arm"},
+    {src:"img/college-57.jpg",sm:"img/college-57-sm.jpg",alt:"Black-and-white photo of the team gathered on the field, seen through netting"},
+    // College Baseball continued, indexes 113–123
+    {src:"img/college-58.jpg",sm:"img/college-58-sm.jpg",alt:"Black-and-white close-up of a player's pinstriped pants and Nike sneakers mid-stride"},
+    {src:"img/college-59.jpg",sm:"img/college-59-sm.jpg",alt:"California flag flying beside power lines in front of a green hillside"},
+    {src:"img/college-60.jpg",sm:"img/college-60-sm.jpg",alt:"Player lifting a base from the infield dirt"},
+    {src:"img/college-61.jpg",sm:"img/college-61-sm.jpg",alt:"Infielder in red leaping as he throws, seen through blurred branches"},
+    {src:"img/college-62.jpg",sm:"img/college-62-sm.jpg",alt:"Black-and-white photo of a coach in a helmet and sunglasses beside a player"},
+    {src:"img/college-63.jpg",sm:"img/college-63-sm.jpg",alt:"Black-and-white photo of players stretching in a circle on the grass"},
+    {src:"img/college-64.jpg",sm:"img/college-64-sm.jpg",alt:"Three players relaxing in the locker room, one holding a bat on the couch"},
+    {src:"img/college-65.jpg",sm:"img/college-65-sm.jpg",alt:"Outfielder in a ready crouch in front of the 380 sign"},
+    {src:"img/college-66.jpg",sm:"img/college-66-sm.jpg",alt:"Team in red mobbing each other in celebration"},
+    {src:"img/college-67.jpg",sm:"img/college-67-sm.jpg",alt:"Close-up of outfield grass"},
+    {src:"img/college-68.jpg",sm:"img/college-68-sm.jpg",alt:"Black-and-white photo of two smiling players sitting on the dugout bench"}
+  ];
+  // Landing slideshow, in this exact order. pos = which part of the photo stays in view when the screen crops it.
+  const LANDING=[
+    {src:"img/hero-17.jpg",pos:"55% 45%"},
+    {src:"img/hero-15.jpg",pos:"50% 40%"},
+    {src:"img/hero-01.jpg",pos:"27% 100%"},
+    {src:"img/hero-09.jpg",pos:"25% 100%"},
+    {src:"img/hero-13.jpg",pos:"25% 50%",mpos:"20% 50%"},
+    {src:"img/hero-20.jpg",pos:"50% 40%"},
+    {src:"img/hero-04.jpg",pos:"60% 85%"},
+    {src:"img/hero-05.jpg",pos:"50% 50%"},
+    {src:"img/hero-23.jpg",pos:"45% 75%"},
+    {src:"img/hero-07.jpg",pos:"50% 50%"},
+    {src:"img/hero-19.jpg",pos:"70% 20%"},
+    {src:"img/hero-22.jpg",pos:"45% 28%"},
+    {src:"img/hero-21.jpg",pos:"45% 70%"},
+    {src:"img/hero-11.jpg",pos:"60% 6%"}
+  ];
+  // Work sections. Photos on the landing page are not repeated here.
+  const SECTIONS=[
+    {title:"Recent Work",      photos:[5,6,7,8,9,10,12,11,13]},
+    {title:"Portfolio",        photos:[15,16,17,18,14,19,20,21,22,23,24,73,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54]},
+    {title:"College Baseball", photos:[55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123]}
+  ];
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- landing ----------
+  let hi=0,front=$('hA'),back=$('hB'),t=null;
+  function show(i){hi=(i+LANDING.length)%LANDING.length;const p=LANDING[hi];
+    back.style.backgroundImage=`url(${p.src})`;const ph=matchMedia('(max-width:700px)').matches;back.style.backgroundPosition=(ph&&p.mpos)||p.pos;back.style.backgroundSize=(ph&&p.msize)||p.size||'cover';back.classList.add('show');front.classList.remove('show');[front,back]=[back,front];
+    const nx=new Image();nx.src=LANDING[(hi+1)%LANDING.length].src;
+    clearTimeout(t);if(!reduce)t=setTimeout(()=>show(hi+1),8000)}
+  // clicking the landing photo takes the visitor to the work
+  $('hero').addEventListener('click',()=>$('work').scrollIntoView({behavior:reduce?'auto':'smooth'}));
+  show(0);
+  // SEOP covers 78% of the photo's width, edge to edge on phones
+  const seop=$('seop');
+  function fit(){const sc=innerWidth<=700?.92:.78;const h=seop.parentElement;h.style.fontSize='100px';h.style.fontSize=(100*sc*$('hero').clientWidth/seop.offsetWidth)+'px'}
+  fit();addEventListener('resize',fit);document.fonts&&document.fonts.ready.then(fit);
+
+  // ---------- work: a plain list of titles; each opens its photos full screen ----------
+  const ul=$('workList');
+  SECTIONS.forEach(sec=>{const li=document.createElement('li');
+    const b=document.createElement('button');b.type='button';b.textContent=sec.title;b.onclick=()=>open(sec,0);li.appendChild(b);
+    ul.appendChild(li)});
+
+  // ---------- lightbox: crossfade between photos, plus a thumbnail sheet ----------
+  const lb=$('lb'),sh=$('lbShield'),sheet=$('sheet'),sheetBtn=$('lbSheet');
+  let cur=[],li=0,last=null,lbFront=$('lbA'),lbBack=$('lbB'),token=0;
+  const ratio={}; // width / height of each photo
+  const thumb=i=>PHOTOS[i].sm||PHOTOS[i].src;
+  function load(i){return new Promise(res=>{if(ratio[i])return res();const im=new Image();im.onload=()=>{ratio[i]=im.naturalWidth/im.naturalHeight;res()};im.onerror=res;im.src=PHOTOS[i].src})}
+  function fitFrame(el,i){const st=el.parentElement,r=ratio[i]||1.5;
+    let w,hh;
+    if(innerWidth<=700){ // phones: every photo fills the screen width; tall photos stop at the screen height
+      w=st.clientWidth;hh=w/r;if(hh>st.clientHeight){hh=st.clientHeight;w=hh*r}
+    }else{
+      const h=Math.min(st.clientHeight, st.clientWidth/1.5); // desktop: one height for every photo
+      w=h*r;hh=h;if(w>st.clientWidth){w=st.clientWidth;hh=w/r}
+    }
+    el.style.width=w+'px';el.style.height=hh+'px'}
+  async function render(){
+    if(!cur.length){lbFront.classList.remove('show');lbBack.classList.remove('show');return}
+    const i=cur[li],my=++token;
+    await load(i);if(my!==token)return;           // wait until the next photo is ready, so nothing pops in half-loaded
+    lbBack.style.backgroundImage=`url(${PHOTOS[i].src})`;lbBack.dataset.i=i;fitFrame(lbBack,i);
+    lbBack.classList.add('show');lbFront.classList.remove('show');[lbFront,lbBack]=[lbBack,lbFront];
+    sheet.querySelectorAll('.idx button').forEach((b,n)=>b.classList.toggle('cur',n===li));
+    [1,-1].forEach(d=>load(cur[(li+d+cur.length)%cur.length])); // preload neighbours
+  }
+  addEventListener('resize',()=>{if(lb.classList.contains('open')&&lbFront.dataset.i)fitFrame(lbFront,+lbFront.dataset.i)});
+  function buildSheet(){sheet.innerHTML='';
+    const idx=document.createElement('div');idx.className='idx';
+    const pv=document.createElement('div');pv.className='pv';pv.innerHTML='<div class="pv-img"></div><div class="pv-cap"><b></b><span></span></div>';
+    const pimg=pv.firstChild,pnum=pv.querySelector('b'),pcap=pv.querySelector('span'),pad=n=>String(n).padStart(2,'0');
+    function peek(n){const i=cur[n];pimg.style.backgroundImage=`url(${PHOTOS[i].src})`;pnum.textContent=`${pad(n+1)} / ${pad(cur.length)}`;
+      idx.querySelectorAll('button').forEach((b,k)=>b.classList.toggle('hot',k===n))}
+    cur.forEach((i,n)=>{const b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Photograph '+(n+1));
+      b.style.transitionDelay=`${60+n*22}ms`;b.innerHTML=`<img src="${thumb(i)}" alt="" loading="lazy" draggable="false"><span>${pad(n+1)}</span>`;
+      b.classList.toggle('cur',n===li);b.onmouseenter=b.onfocus=()=>peek(n);
+      b.onclick=()=>{li=n;render();toggleSheet(false)};idx.appendChild(b)});
+    idx.onmouseleave=()=>peek(li);
+    sheet.append(idx,pv);sheet.peek=peek;peek(li)}
+  function toggleSheet(on){on=on??!sheet.classList.contains('on');sheet.classList.toggle('on',on);sheetBtn.textContent=on?'Back to photo':"Bird's Eye";
+    if(on){sheet.peek&&sheet.peek(li);const c=sheet.querySelectorAll('.idx button')[li];c&&c.scrollIntoView({block:'nearest'})}}
+  sheetBtn.onclick=()=>toggleSheet();
+  async function open(sec,n){last=document.activeElement;cur=sec.photos;li=n;token++;
+    $('lbTitle').textContent=sec.title;lbFront.classList.remove('show');lbBack.classList.remove('show');
+    sheetBtn.hidden=cur.length<2;toggleSheet(false);
+    lb.classList.add('open');document.body.style.overflow='hidden';$('lbClose').focus({preventScroll:true});
+    render();await Promise.all(cur.map(load));buildSheet()}
+  function close(){lb.classList.remove('open');toggleSheet(false);document.body.style.overflow='';last&&last.focus({preventScroll:true})}
+  function step(d){if(cur.length<2)return;li=(li+d+cur.length)%cur.length;render()}
+  $('lbClose').onclick=close;
+  sh.addEventListener('click',e=>{const r=sh.getBoundingClientRect();step(e.clientX<r.left+r.width/3?-1:1)});
+  sh.addEventListener('pointermove',e=>{const r=sh.getBoundingClientRect();sh.classList.toggle('left',e.clientX<r.left+r.width/3)});
+  let sx=null;sh.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+  sh.addEventListener('touchend',e=>{if(sx==null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40){step(dx<0?1:-1);e.preventDefault()}sx=null});
+  document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;
+    if(e.key==='Escape'){sheet.classList.contains('on')?toggleSheet(false):close()}
+    else if(sheet.classList.contains('on'))return;
+    else if(e.key==='ArrowRight')step(1);else if(e.key==='ArrowLeft')step(-1);
+    else if(e.key==='Tab'){const f=[...lb.querySelectorAll('.lb-bar button')].filter(b=>!b.hidden);const k=f.indexOf(document.activeElement);e.preventDefault();f[(k+(e.shiftKey?-1:1)+f.length)%f.length].focus()}});
+
+  // ---------- protection ----------
+  const toast=$('toast');let tt;
+  function warn(){toast.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('on'),1500)}
+  document.addEventListener('contextmenu',e=>{if(e.target.closest('.protected')){e.preventDefault();warn()}});
+  document.addEventListener('dragstart',e=>{if(e.target.closest('.protected'))e.preventDefault()});
+  document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();warn()}});
+
+})();
+</script>
+
+</body></html>
