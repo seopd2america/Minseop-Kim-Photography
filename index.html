@@ -99,8 +99,19 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
 /* ---------- MOBILE ---------- */
 @media(max-width:700px){
   :root{--m:16px}
-  /* phones: show each photo whole, edge to edge at its own 3:2 shape instead of cropping it to a tall screen */
-  .landing{height:auto;min-height:0;aspect-ratio:3/2;margin-top:env(safe-area-inset-top,0px)}
+  /* phones: show each photo whole at its own 3:2 shape, with a thin white margin at the sides.
+     On arrival (html.gate) the photo sits alone in the middle of the screen; a tap shrinks the landing so the work list rises into view. */
+  .landing{height:auto;display:flex;align-items:center;padding-inline:8px;margin-top:env(safe-area-inset-top,0px);
+    min-height:calc((100vw - 16px) / 1.5);transition:min-height .7s cubic-bezier(.65,0,.35,1)}
+  .screen{position:relative;inset:auto;width:100%;aspect-ratio:3/2}
+  html.gate .landing{min-height:calc(100svh - env(safe-area-inset-top,0px))}
+  html.gate,html.gate body{overflow:hidden}
+  /* About fits on one screen without scrolling */
+  .about .body{max-width:none;padding-block:8px 12px;font-size:clamp(9px,1.45svh,12.5px);line-height:1.38}
+  .about h2{margin-bottom:.45em}
+  .about h2:not(:first-child){margin-top:1.25em}
+  .about p{margin-bottom:.6em}
+  .about li{margin-bottom:.3em}
 }
 
 /* protection */
@@ -319,7 +330,15 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
     const nx=new Image();nx.src=LANDING[(hi+1)%LANDING.length].src;
     clearTimeout(t);if(!reduce)t=setTimeout(()=>show(hi+1),8000)}
   // clicking the landing photo takes the visitor to the work
-  $('hero').addEventListener('click',()=>$('work').scrollIntoView({behavior:reduce?'auto':'smooth'}));
+  // phones: arrive on the photo alone; a tap or swipe reveals the work list. Desktop: clicking the photo scrolls to the work.
+  const phone=()=>matchMedia('(max-width:700px)').matches,root=document.documentElement;
+  function enter(){root.classList.remove('gate')}
+  if(phone()&&!location.hash)root.classList.add('gate');
+  let ty=null;
+  addEventListener('touchstart',e=>{ty=e.touches[0].clientY},{passive:true});
+  addEventListener('touchmove',e=>{if(root.classList.contains('gate')&&ty!=null&&ty-e.touches[0].clientY>30)enter()},{passive:true});
+  addEventListener('wheel',e=>{if(root.classList.contains('gate')&&e.deltaY>0)enter()},{passive:true});
+  $('hero').addEventListener('click',()=>{if(root.classList.contains('gate'))return enter();$('work').scrollIntoView({behavior:reduce?'auto':'smooth'})});
   show(0);
   // SEOP covers 78% of the photo's width, edge to edge on phones
   const seop=$('seop');
