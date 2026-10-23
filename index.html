@@ -130,7 +130,7 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
 </section>
 
 <main id="work">
-  <nav class="index gut" aria-label="Work"><ul id="workList"><li id="aboutItem"><button type="button" id="aboutBtn">About</button></li></ul></nav>
+  <nav class="index gut" aria-label="Work"><ul id="workList"><li><button type="button" id="homeBtn">Home</button></li><li id="aboutItem"><button type="button" id="aboutBtn">About</button></li></ul></nav>
 
 </main>
 
@@ -340,6 +340,8 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
   addEventListener('touchmove',e=>{if(root.classList.contains('gate')&&ty!=null&&ty-e.touches[0].clientY>30)enter()},{passive:true});
   addEventListener('wheel',e=>{if(root.classList.contains('gate')&&e.deltaY>0)enter()},{passive:true});
   $('hero').addEventListener('click',()=>{if(root.classList.contains('gate'))return enter();$('work').scrollIntoView({behavior:reduce?'auto':'smooth'})});
+  // Home: back to the landing photo (on phones, the photo alone again)
+  $('homeBtn').onclick=()=>{if(phone()){scrollTo(0,0);root.classList.add('gate')}else scrollTo({top:0,behavior:reduce?'auto':'smooth'})};
   show(0);
   // SEOP covers 78% of the photo's width, edge to edge on phones
   const seop=$('seop');
