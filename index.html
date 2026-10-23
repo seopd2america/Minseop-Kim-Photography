@@ -404,6 +404,13 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
   document.addEventListener('dragstart',e=>{if(e.target.closest('.protected'))e.preventDefault()});
   document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='s'){e.preventDefault();warn()}});
 
+  // ---------- links: #about opens About, #portfolio etc. open that section (404.html sends old Wix pages here) ----------
+  const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  const h=decodeURIComponent(location.hash.slice(1)).toLowerCase();
+  if(h==='about')openAbout();
+  else if(h==='work')$('work').scrollIntoView();
+  else{const sec=SECTIONS.find(s=>slug(s.title)===h);if(sec)open(sec,0)}
+
 })();
 </script>
 

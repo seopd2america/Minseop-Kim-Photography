@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Minseop Kim Photography</title>
+<script>
+// Old Wix addresses (/about, /portfolio, ...) and any other missing page go to the matching part of the one-page site.
+(function(){
+  var p=location.pathname.toLowerCase(), to='';
+  if(/about|contact/.test(p))to='#about';
+  else if(/college|baseball/.test(p))to='#college-baseball';
+  else if(/recent/.test(p))to='#recent-work';
+  else if(/portfolio/.test(p))to='#portfolio';
+  else if(/collection|overview|project|work/.test(p))to='#work';
+  location.replace('/'+to);
+})();
+</script>
+<style>body{margin:0;background:#fff;color:#0d0d0d;font:700 14px "Arial Narrow",Arial,sans-serif;display:grid;place-content:center;min-height:100vh}a{color:inherit}</style>
+</head>
+<body><a href="/">Minseop Kim Photography</a></body>
+</html>
