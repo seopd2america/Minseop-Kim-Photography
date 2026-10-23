@@ -43,18 +43,17 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
 .index button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
 .index .soon{color:var(--ink)}
 
-/* ---------- ABOUT (folded away at the very bottom) ---------- */
-.about{padding-block:clamp(96px,12vw,180px) 0;color:var(--ink)}
+/* ---------- ABOUT (last item of the work index; opens in place) ---------- */
+.about{color:var(--ink)}
 .about summary{cursor:pointer;list-style:none;display:inline-block;transition:color .2s}
-.about summary:hover{color:var(--red)}
+.about summary:hover,.about summary:focus-visible,.about[open] summary{color:var(--red)}
+.about summary:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
 .about summary::-webkit-details-marker{display:none}
-.about summary::after{content:" +"}
-.about[open] summary::after{content:" −"}
-.about .body{max-width:1100px;padding-top:28px;font-size:clamp(15px,1.2vw,18px);line-height:1.65}
+.about .body{max-width:1100px;margin-inline:auto;padding-top:28px;text-align:left;letter-spacing:normal;font-size:clamp(15px,1.2vw,18px);line-height:1.65}
 .about h2{font-size:1.15em;font-weight:700;margin:0 0 .9em}
 .about h2:not(:first-child){margin-top:2.2em}
 .about p{margin:0 0 1.2em;max-width:75ch}
-.about ul{margin:0;padding:0;list-style:none}
+.about ul{margin:0;padding:0;list-style:none;font-size:1em;line-height:inherit;letter-spacing:normal;text-align:left}
 .about li{margin-bottom:.5em}
 .about .mail{user-select:all;-webkit-user-select:all;overflow-wrap:anywhere}
 
@@ -122,12 +121,9 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
 </section>
 
 <main id="work">
-  <nav class="index gut" aria-label="Work"><ul id="workList"></ul></nav>
-
-</main>
-
-<details class="about gut" id="about">
-  <summary class="small">About</summary>
+  <nav class="index gut" aria-label="Work"><ul id="workList"><li id="aboutItem">
+<details class="about" id="about">
+  <summary>About</summary>
   <div class="body">
     <h2>About Minseop Kim</h2>
     <p>Photographer, baseball fanatic, and most people call me Sup (Like what's up)</p>
@@ -145,6 +141,9 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
     <p class="mail">seopd2america@gmail.com</p>
   </div>
 </details>
+</li></ul></nav>
+
+</main>
 
 <footer class="foot gut small">© 2018 - 2026 All rights Reserved</footer>
 
@@ -333,7 +332,7 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
   const ul=$('workList');
   SECTIONS.forEach(sec=>{const li=document.createElement('li');
     const b=document.createElement('button');b.type='button';b.textContent=sec.title;b.onclick=()=>open(sec,0);li.appendChild(b);
-    ul.appendChild(li)});
+    ul.insertBefore(li,$('aboutItem'))});
 
   // ---------- lightbox: crossfade between photos, plus a thumbnail sheet ----------
   const lb=$('lb'),sh=$('lbShield'),sheet=$('sheet'),sheetBtn=$('lbSheet');
