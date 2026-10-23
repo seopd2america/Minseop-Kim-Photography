@@ -310,10 +310,11 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
     {src:"img/hero-05.jpg",pos:"50% 50%"},
     {src:"img/hero-23.jpg",pos:"45% 75%"},
     {src:"img/hero-07.jpg",pos:"50% 50%"},
+    {src:"img/hero-24.jpg",pos:"50% 50%"},
     {src:"img/hero-19.jpg",pos:"70% 20%"},
-    {src:"img/hero-22.jpg",pos:"45% 28%"},
+    {src:"img/hero-08.jpg",pos:"50% 62%"},
     {src:"img/hero-21.jpg",pos:"45% 70%"},
-    {src:"img/hero-11.jpg",pos:"60% 6%"}
+    {src:"img/hero-25.jpg",pos:"50% 40%"}
   ];
   // Work sections. Photos on the landing page are not repeated here.
   const SECTIONS=[
@@ -328,7 +329,7 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
   function show(i){hi=(i+LANDING.length)%LANDING.length;const p=LANDING[hi];
     back.style.backgroundImage=`url(${p.src})`;const ph=matchMedia('(max-width:700px)').matches;back.style.backgroundPosition=(ph&&p.mpos)||p.pos;back.style.backgroundSize=(ph&&p.msize)||p.size||'cover';back.classList.add('show');front.classList.remove('show');[front,back]=[back,front];
     const nx=new Image();nx.src=LANDING[(hi+1)%LANDING.length].src;
-    clearTimeout(t);if(!reduce)t=setTimeout(()=>show(hi+1),8000)}
+    clearTimeout(t);if(!reduce)t=setTimeout(()=>show(hi+1),6000)}
   // clicking the landing photo takes the visitor to the work
   // phones: arrive on the photo alone; a tap or swipe reveals the work list. Desktop: clicking the photo scrolls to the work.
   const phone=()=>matchMedia('(max-width:700px)').matches,root=document.documentElement;
