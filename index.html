@@ -339,9 +339,16 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
   addEventListener('touchstart',e=>{ty=e.touches[0].clientY},{passive:true});
   addEventListener('touchmove',e=>{if(root.classList.contains('gate')&&ty!=null&&ty-e.touches[0].clientY>30)enter()},{passive:true});
   addEventListener('wheel',e=>{if(root.classList.contains('gate')&&e.deltaY>0)enter()},{passive:true});
-  $('hero').addEventListener('click',()=>{if(root.classList.contains('gate'))return enter();$('work').scrollIntoView({behavior:reduce?'auto':'smooth'})});
+  // a slow, eased scroll (the browser's own smooth scroll is too quick); any wheel or touch takes over
+  let glide=0;
+  function glideTo(y){const y0=scrollY,d=y-y0,ms=1400,t0=performance.now(),id=++glide;
+    if(reduce||!d)return scrollTo(0,y);
+    const ease=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+    (function step(now){if(id!==glide)return;const k=Math.min(1,(now-t0)/ms);scrollTo(0,y0+d*ease(k));if(k<1)requestAnimationFrame(step)})(t0)}
+  ['wheel','touchstart','keydown'].forEach(ev=>addEventListener(ev,()=>glide++,{passive:true}));
+  $('hero').addEventListener('click',()=>{if(root.classList.contains('gate'))return enter();glideTo($('work').getBoundingClientRect().top+scrollY)});
   // Home: back to the landing photo (on phones, the photo alone again)
-  $('homeBtn').onclick=()=>{if(phone()){scrollTo(0,0);root.classList.add('gate')}else scrollTo({top:0,behavior:reduce?'auto':'smooth'})};
+  $('homeBtn').onclick=()=>{if(phone()){scrollTo(0,0);root.classList.add('gate')}else glideTo(0)};
   show(0);
   // SEOP covers 78% of the photo's width, edge to edge on phones
   const seop=$('seop');
