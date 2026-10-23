@@ -43,17 +43,13 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
 .index button:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
 .index .soon{color:var(--ink)}
 
-/* ---------- ABOUT (last item of the work index; opens in place) ---------- */
-.about{color:var(--ink)}
-.about summary{cursor:pointer;list-style:none;display:inline-block;transition:color .2s}
-.about summary:hover,.about summary:focus-visible,.about[open] summary{color:var(--red)}
-.about summary:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
-.about summary::-webkit-details-marker{display:none}
-.about .body{max-width:1100px;margin-inline:auto;padding-top:28px;text-align:left;letter-spacing:normal;font-size:clamp(15px,1.2vw,18px);line-height:1.65}
+/* ---------- ABOUT (opens full screen, like a work section) ---------- */
+.about-scroll{overflow-y:auto;min-height:0;-webkit-overflow-scrolling:touch}
+.about .body{max-width:1100px;margin:0 auto;padding-block:clamp(24px,6vh,80px);font-size:clamp(15px,1.2vw,18px);line-height:1.65}
 .about h2{font-size:1.15em;font-weight:700;margin:0 0 .9em}
 .about h2:not(:first-child){margin-top:2.2em}
 .about p{margin:0 0 1.2em;max-width:75ch}
-.about ul{margin:0;padding:0;list-style:none;font-size:1em;line-height:inherit;letter-spacing:normal;text-align:left}
+.about ul{margin:0;padding:0;list-style:none}
 .about li{margin-bottom:.5em}
 .about .mail{user-select:all;-webkit-user-select:all;overflow-wrap:anywhere}
 
@@ -121,27 +117,7 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
 </section>
 
 <main id="work">
-  <nav class="index gut" aria-label="Work"><ul id="workList"><li id="aboutItem">
-<details class="about" id="about">
-  <summary>About</summary>
-  <div class="body">
-    <h2>About Minseop Kim</h2>
-    <p>Photographer, baseball fanatic, and most people call me Sup (Like what's up)</p>
-    <p>I find it magical how the camera becomes a bridge, connecting me to worlds I never imagined I could enter. While I photograph a range of subjects, I am especially drawn to sports. From baseball to skateboarding, my focus is to visualize the core elements and bring out the narrative in the scene, capturing meaningful moments and their unique cultural aspects. I photograph to tell stories. I’m driven to push the creative challenges and share my perspective through images.</p>
-    <h2>Education</h2>
-    <p>ArtCenter College of Design, Pasadena, CA<br>Bachelor of Fine Arts in Photography and Imaging<br>(Anticipated Graduation December 2026)</p>
-    <h2>Awards / Exhibitions / Publications</h2>
-    <ul>
-      <li>Los Angeles Skate Scene: 2026 International Photography Awards (IPA) Non-Professional Honorable Mention for People Traditions / Culture</li>
-      <li><em>College Baseball:</em> 2025 International Photography Awards (IPA) Non-Professional 1st place for Editorial / Press, Sports</li>
-      <li><em>College Baseball:</em> Featured in <em>IPA Book 2025</em></li>
-      <li>ArtCenter College of Design Gallery Show, Pasadena, CA (FA 21, FA 24, SP 25, FA 25 and SP 26)</li>
-    </ul>
-    <h2>Contact</h2>
-    <p class="mail">seopd2america@gmail.com</p>
-  </div>
-</details>
-</li></ul></nav>
+  <nav class="index gut" aria-label="Work"><ul id="workList"><li id="aboutItem"><button type="button" id="aboutBtn">About</button></li></ul></nav>
 
 </main>
 
@@ -150,6 +126,27 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
 <div class="lb protected" id="lb" role="dialog" aria-modal="true" aria-label="Photograph viewer">
   <div class="lb-bar gut small"><span id="lbTitle"></span><span class="lb-actions"><button id="lbSheet" type="button">Bird&rsquo;s Eye</button><button id="lbClose" type="button">Close</button></span></div>
   <div class="lb-stage"><div class="lb-img" id="lbA"></div><div class="lb-img" id="lbB"></div><div class="lb-shield" id="lbShield"></div><div class="sheet" id="sheet" aria-label="All photographs in this section"></div></div>
+</div>
+<div class="lb about" id="about" role="dialog" aria-modal="true" aria-label="About">
+  <div class="lb-bar gut small"><span>About</span><span class="lb-actions"><button id="aboutClose" type="button">Close</button></span></div>
+  <div class="about-scroll gut">
+    <div class="body">
+      <h2>About Minseop Kim</h2>
+      <p>Photographer, baseball fanatic, and most people call me Sup (Like what's up)</p>
+      <p>I find it magical how the camera becomes a bridge, connecting me to worlds I never imagined I could enter. While I photograph a range of subjects, I am especially drawn to sports. From baseball to skateboarding, my focus is to visualize the core elements and bring out the narrative in the scene, capturing meaningful moments and their unique cultural aspects. I photograph to tell stories. I’m driven to push the creative challenges and share my perspective through images.</p>
+      <h2>Education</h2>
+      <p>ArtCenter College of Design, Pasadena, CA<br>Bachelor of Fine Arts in Photography and Imaging<br>(Anticipated Graduation December 2026)</p>
+      <h2>Awards / Exhibitions / Publications</h2>
+      <ul>
+        <li>Los Angeles Skate Scene: 2026 International Photography Awards (IPA) Non-Professional Honorable Mention for People Traditions / Culture</li>
+        <li><em>College Baseball:</em> 2025 International Photography Awards (IPA) Non-Professional 1st place for Editorial / Press, Sports</li>
+        <li><em>College Baseball:</em> Featured in <em>IPA Book 2025</em></li>
+        <li>ArtCenter College of Design Gallery Show, Pasadena, CA (FA 21, FA 24, SP 25, FA 25 and SP 26)</li>
+      </ul>
+      <h2>Contact</h2>
+      <p class="mail">seopd2america@gmail.com</p>
+    </div>
+  </div>
 </div>
 <div class="toast small" id="toast">© Minseop Kim</div>
 
@@ -333,6 +330,13 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
   SECTIONS.forEach(sec=>{const li=document.createElement('li');
     const b=document.createElement('button');b.type='button';b.textContent=sec.title;b.onclick=()=>open(sec,0);li.appendChild(b);
     ul.insertBefore(li,$('aboutItem'))});
+
+  // ---------- about: opens full screen like a work section ----------
+  const ab=$('about');let abLast=null;
+  function openAbout(){abLast=document.activeElement;ab.querySelector('.about-scroll').scrollTop=0;ab.classList.add('open');document.body.style.overflow='hidden';$('aboutClose').focus({preventScroll:true})}
+  function closeAbout(){ab.classList.remove('open');document.body.style.overflow='';abLast&&abLast.focus({preventScroll:true})}
+  $('aboutBtn').onclick=openAbout;$('aboutClose').onclick=closeAbout;
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ab.classList.contains('open'))closeAbout()});
 
   // ---------- lightbox: crossfade between photos, plus a thumbnail sheet ----------
   const lb=$('lb'),sh=$('lbShield'),sheet=$('sheet'),sheetBtn=$('lbSheet');
