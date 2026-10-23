@@ -55,7 +55,7 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
 .about .mail{user-select:all;-webkit-user-select:all;overflow-wrap:anywhere}
 
 /* ---------- FOOTER ---------- */
-.foot{padding-block:28px calc(32px + env(safe-area-inset-bottom,0px));color:var(--ink)}
+.foot{padding-block:28px calc(32px + env(safe-area-inset-bottom,0px));text-align:center;color:var(--ink)}
 
 /* ---------- LIGHTBOX ---------- */
 .lb{position:fixed;inset:0;z-index:50;background:var(--paper);display:grid;grid-template-rows:auto 1fr;opacity:0;pointer-events:none;transition:opacity .3s;padding-top:env(safe-area-inset-top,0px);padding-bottom:max(24px,env(safe-area-inset-bottom,0px))}
@@ -102,10 +102,9 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
   /* phones: show each photo whole at its own 3:2 shape, with a thin white margin at the sides.
      On arrival (html.gate) the photo sits alone in the middle of the screen; a tap shrinks the landing so the work list rises into view. */
   .landing{height:auto;display:flex;align-items:center;padding-inline:8px;margin-top:env(safe-area-inset-top,0px);
-    min-height:calc((100vw - 16px) / 1.5);transition:min-height .7s cubic-bezier(.65,0,.35,1),padding .7s cubic-bezier(.65,0,.35,1)}
+    min-height:calc((100vw - 16px) / 1.5);transition:min-height .7s cubic-bezier(.65,0,.35,1)}
   .screen{position:relative;inset:auto;width:100%;aspect-ratio:3/2}
-  /* sits a little above the true middle, which reads as centered */
-  html.gate .landing{min-height:calc(100svh - env(safe-area-inset-top,0px));padding-bottom:12svh}
+  html.gate .landing{min-height:calc(100svh - env(safe-area-inset-top,0px))}
   html.gate,html.gate body{overflow:hidden}
   /* About fits on one screen without scrolling */
   .about .body{max-width:none;padding-block:8px 12px;font-size:clamp(9px,1.45svh,12.5px);line-height:1.38}
@@ -134,7 +133,7 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
 
 </main>
 
-<footer class="foot gut small">© 2018 - 2026 All rights Reserved</footer>
+<footer class="foot gut small">© 2018 - 2026 Minseop Kim. All rights Reserved</footer>
 
 <div class="lb protected" id="lb" role="dialog" aria-modal="true" aria-label="Photograph viewer">
   <div class="lb-bar gut small"><span id="lbTitle"></span><span class="lb-actions"><button id="lbSheet" type="button">Bird&rsquo;s Eye</button><button id="lbClose" type="button">Close</button></span></div>
