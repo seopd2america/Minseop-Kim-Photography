@@ -102,9 +102,10 @@ a:focus-visible,button:focus-visible{outline:2px solid currentColor;outline-offs
   /* phones: show each photo whole at its own 3:2 shape, with a thin white margin at the sides.
      On arrival (html.gate) the photo sits alone in the middle of the screen; a tap shrinks the landing so the work list rises into view. */
   .landing{height:auto;display:flex;align-items:center;padding-inline:8px;margin-top:env(safe-area-inset-top,0px);
-    min-height:calc((100vw - 16px) / 1.5);transition:min-height .7s cubic-bezier(.65,0,.35,1)}
+    min-height:calc((100vw - 16px) / 1.5);transition:min-height .7s cubic-bezier(.65,0,.35,1),padding .7s cubic-bezier(.65,0,.35,1)}
   .screen{position:relative;inset:auto;width:100%;aspect-ratio:3/2}
-  html.gate .landing{min-height:calc(100svh - env(safe-area-inset-top,0px))}
+  /* sits a little above the true middle, which reads as centered */
+  html.gate .landing{min-height:calc(100svh - env(safe-area-inset-top,0px));padding-bottom:12svh}
   html.gate,html.gate body{overflow:hidden}
   /* About fits on one screen without scrolling */
   .about .body{max-width:none;padding-block:8px 12px;font-size:clamp(9px,1.45svh,12.5px);line-height:1.38}
